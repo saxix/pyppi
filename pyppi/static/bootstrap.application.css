@@ -1,0 +1,14 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+#logo {
+    height: 32px;
+    margin: 7px 7px 0;
+}
+
+#hero_logo {
+    height: 256px;
+    margin: 10px 0 0 0;
+}

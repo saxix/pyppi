@@ -1,0 +1,10 @@
+{% extends "box.html" %}{% load url from future %}{% load i18n static %}
+
+{% block title %}{{ block.super }}{% trans '403 Forbidden' %}{% endblock title %}
+
+{% block box %}
+    <img src="{% static 'img/access_denied2.png'%}" alt="" height="71" >
+    <h1>Permission Denied</h1>
+    <p>You have no rights to access this page.
+        Either way, we are sorry. </p>
+{% endblock box %}

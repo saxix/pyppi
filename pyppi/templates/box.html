@@ -1,0 +1,50 @@
+{% extends "base.html" %}{% load url from future %}{% load i18n static %}
+
+{% block content %}
+    <style type="text/css">
+        body {
+{#            background-image: -moz-linear-gradient(-90deg, #EEEEEE, #D6D6D6 17%, #AAAAAA 67%, #AAAAAA);#}
+        }
+
+        #mini_inner {
+            text-align: center;
+            background-color: #FFFFFF;
+            border-radius: 4px 4px 4px 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 350px;
+            padding: 50px;
+            width: 360px;
+            z-index: 1;
+        }
+
+        .centered {
+            left: 50%;
+            margin-left: -230px;
+            margin-top: -300px;
+            position: fixed;
+            top: 50%;
+        }
+
+        #mini_inner h1 {
+            color: #888888;
+            font-size: 20px;
+            margin-bottom: 30px;
+            margin-top: 30px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: bold;
+            text-rendering: optimizelegibility;
+        }
+
+        #mini_inner p {
+            color: #888888;
+            font-size: 14px;
+            line-height: 1.4em;
+            text-align: left;
+        }
+    </style>
+    <div id="mini_inner" class="centered">
+        {% block box %}{% endblock %}
+    </div>
+{% endblock content %}

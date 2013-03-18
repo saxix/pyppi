@@ -1,0 +1,12 @@
+*.sqlite
+*.pyc
+*.pyo
+/dists
+/dist
+/.tox
+/MANIFEST
+/.idea
+/~build
+/mysettings.py
+/manage.py
+test-output

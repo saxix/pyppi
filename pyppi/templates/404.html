@@ -1,0 +1,7 @@
+{% extends "box.html" %}{% load url from future %}{% load i18n static %}
+{% block box %}
+    <img src="{% static 'img/alert.png'%}" alt="" lass="alert">
+    <h1>Oh no! We couldn't find your page.</h1>
+    <p>This page may not exist anymore, or the URL may have been
+        misspelled. Either way, we are sorry. </p>
+{% endblock box %}

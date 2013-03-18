@@ -1,0 +1,7 @@
+{% for url, label in breadcrumbs %}
+    {% if forloop.last %}
+        {{label}}
+    {% else %}
+        <a href="{{ url }}">{{ label }}</a> &rsaquo;
+    {% endif %}
+{% endfor %}

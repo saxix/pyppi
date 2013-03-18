@@ -1,0 +1,18 @@
+#logo {
+    float: left;
+    margin: 0 10px;
+}
+
+#site-name {
+    font-size: 27px !important;
+    line-height: 30px;
+}
+
+.search {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.highlighted {
+    background-color: #FEEF00;
+}

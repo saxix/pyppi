@@ -1,0 +1,71 @@
+{% load files %}{% ifnotequal release release.package.latest %}
+    <div>Latest: <a href="{{ release.package.latest.get_absolute_url }}">{{ release.package.latest }}</a></div>
+{% endifnotequal %}
+
+<p class="lead">
+    {{ release.summary }}
+</p>
+
+<blockquote>
+    <p>
+        {% load safemarkup %}
+        {{ release.description|saferst }}
+    </p>
+</blockquote>
+
+{% if release.distributions.count %}
+    <table class="release-detail table table-striped table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+            <th>Filename</th>
+            <th>Type</th>
+            <th>Py Version</th>
+            <th>Uploaded On</th>
+            <th>Size</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dist in release.distributions.all %}
+            <tr>
+                {% can_download dist as cd %}
+                {% if cd %}
+                    <td><a href="{{ dist.get_absolute_url }}">{{ dist.filename }}</a></td>
+                {% else %}
+                    <td>{{ dist.filename }}</td>
+                {% endif %}
+                <td>{{ dist.display_filetype }}</td>
+                <td>{{ dist.pyversion }}</td>
+                <td>{{ dist.created }}</td>
+                <td>{{ dist.content|filesize}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+<dl class="dl-horizontal">
+    <dt>License:</dt>
+    <dd>{{ release.package_info.license }}</dd>
+
+    <dt>Author:</dt>
+    <dd><a href="mailto:{{ release.package_info.author_email }}">{{ release.package_info.author }}</a></dd>
+
+    <dt>Home Page:</dt>
+    <dd><a href="{{ release.package_info.home_page }}">{{ release.package_info.home_page }}</a></dd>
+
+    {% if release.package_info.download_url %}
+        <dt>Download URL:</dt>
+        <dd><a href="{{ release.package_info.download_url }}">{{ release.package_info.download_url }}</a></dd>
+    {% endif %}
+
+    {% if release.classifiers %}
+        <dt>Classifiers:</dt>
+        <dd>
+            <ul>
+                {% for classifier in release.classifiers %}
+                    <li>{{ classifier }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+    {% endif %}
+</dl>

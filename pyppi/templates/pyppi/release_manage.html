@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block bread_crumbs_1 %}
+    &raquo; <a href="{{ release.package.get_absolute_url }}">{{ release.package }}</a>
+    &raquo; <a href="{{ release.get_absolute_url }}">{{ release }}</a>
+    &raquo; Manage{% endblock %}
+
+{% block content %}
+    <h1>Manage {{ release }}</h1>
+    <form action="" method="post">
+        <ul>
+            {{ form.as_p }}
+            <input type="submit" value="Submit"/>
+        </ul>
+    </form>
+{% endblock %}
+

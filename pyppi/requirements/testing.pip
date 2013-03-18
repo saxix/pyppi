@@ -1,0 +1,6 @@
+-r defaults.pip
+
+django-webtest==1.6
+django-dynamic-fixture==1.6.5
+scripttest
+webtest

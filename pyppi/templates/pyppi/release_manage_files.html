@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block bread_crumbs_1 %}
+&raquo; <a href="{{ release.package.get_absolute_url }}">{{ release.package }}</a>
+&raquo; <a href="{{ release.get_absolute_url }}">{{ release }}</a>
+&raquo; Manage Files{% endblock %}
+
+{% block content %}
+<h1>Manage {{ release }} Files</h1>
+{% if formset.forms %}
+<form action="" method="post">
+	{{ formset.management_form }}
+	<table>
+		<thead>
+			<tr>
+				<th>Remove?</th>
+				<th>Type</th>
+				<th>Py Version</th>
+				<th>Comment</th>
+				<th>Download</th>
+				<th>Size</th>
+				<th>MD5 Digest</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for form in formset.forms %}
+			{% for field in form %}{% if field.is_hidden %}{{ field }}{% endif %}{% endfor %}
+			{% with form.instance as dist %}
+			<tr>
+				<td>{{ form.DELETE }}</td>
+				<td>{{ dist.display_filetype }}</td>
+				<td>{{ dist.pyversion }}</td>
+				<td>{{ form.comment }}</td>
+				<td><a href="{{ dist.get_absolute_url }}">{{ dist.filename }}</a></td>
+				<td>{{ dist.content.size|filesizeformat }}</td>
+				<td>{{ dist.md5_digest }}</td>
+			</tr>
+			{% endwith %}
+		{% endfor %}
+		</tbody>
+	</table>
+	<div><input type="submit" value="Save" /></div>
+</form>
+{% endif %}
+{% if upload_form %}
+<h2>Upload a Distribution</h2>
+<form action="{% url pyppi-release-upload-file package=release.package.name version=release.version %}"
+	method="post" enctype="multipart/form-data">
+	{{ upload_form.as_p }}
+	<div><input type="submit" value="Upload" /></div>
+</form>
+{% endif %}
+{% endblock %}
+

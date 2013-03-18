@@ -1,0 +1,20 @@
+[
+    {
+        "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "sax",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-12-10 02:42:42",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$05430$a44e3a29a9c4867b8130077585df11426e461757",
+            "email": "sax@os4d.org",
+            "date_joined": "2012-12-10 02:42:42"
+        }
+    }
+]
