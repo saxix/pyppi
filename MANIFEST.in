@@ -2,7 +2,7 @@ include README.txt
 include CHANGES.txt
 include MANIFEST.in
 include setup.py
-include pyppi/requirements.pip
 
 recursive-include docs *
 recursive-include pyppi *.json
+recursive-include pyppi *.pip
