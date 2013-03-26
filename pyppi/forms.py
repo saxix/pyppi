@@ -125,7 +125,7 @@ class Metadata10Form(forms.Form):
                                            'be used to assist searching for the '
                                            'package in a larger catalog'))
 
-    home_page = forms.URLField(required=False, verify_exists=True,
+    home_page = forms.URLField(required=False,
                                help_text=_(u'A string containing the URL for '
                                            'the package\'s home page.'))
 
