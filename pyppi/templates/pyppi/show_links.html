@@ -1,0 +1,7 @@
+<html><head><title>Links for {{ dist_name }}</title></head><body>
+<h1>Links for {{ dist_name }}</h1>
+
+{% for release in releases %}
+<a href="{{ release.get_dl_url }}">{{ release.filename }}</a><br />
+{% endfor %}
+</body></html>

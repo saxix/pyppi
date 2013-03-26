@@ -1,0 +1,32 @@
+{% extends "base.html" %}{% load static i18n breadcrumbs %}
+
+{% block page_title %}
+    <h1>Package List</h1>
+{% endblock %}
+
+{#{% block bread_crumbs_1 %}#}
+{#    <li class="active">Packages</li>#}
+{#{% endblock %}#}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'packages' 'pyppi-package-list' %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Package</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for package in package_list %}
+            <tr>
+                <td><a href="{{ package.get_absolute_url }}">{{ package }}</a></td>
+                <td>{% if package.latest %}{{ package.latest.summary|truncatewords:10 }}{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

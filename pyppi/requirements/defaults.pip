@@ -1,0 +1,9 @@
+South==0.7.6
+Sphinx==1.1.3
+django-haystack==1.2.7
+Whoosh==2.4.1
+django-guardian>=1.0
+logan
+gunicorn
+pkginfo
+mock==1.0.1

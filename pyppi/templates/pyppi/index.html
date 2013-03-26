@@ -1,0 +1,58 @@
+{% extends "base.html" %}{% load static %}{% load url from future %}
+
+{% block breadcrumbs_container %}{% endblock %}
+
+{% block content %}
+
+    <!-- Main hero unit -->
+    <div class="hero-unit clearfix">
+        <div class="span4">
+            <img id="hero_logo" src="{% static 'img/logo.png' %}" alt="" class="pull-left"/>
+        </div>
+
+        <div class="span6">
+            <h2>PYthon Private Package Index</h2>
+
+            <p>The Package Repository is a repository of software for the Python programming language.
+                To contact the PyPI admins, please use the Get help or Bug reports links.</p>
+
+            <p><a class="btn btn-primary btn-large" href="{% url 'pyppi-package-list' %}">Browse &raquo;</a></p>
+        </div>
+    </div>
+
+    <!-- row of columns of two cols-->
+    <div class="row">
+
+        <!-- Latest Packages -->
+        <div class="span6">
+            <h2>Latest Packages</h2>
+            {% if package %}
+                <p>{{ package }}</p>
+                <p>{{ package.latest.summary }}</p>
+                <p>
+                <ul>
+                    {% for o in package.owners.all %}
+                        <li>{{ o.email }}</li>
+                    {% endfor %}
+                </ul>
+                <p><a class="btn" href="{{ package.get_absolute_url }}">View details &raquo;</a></p>
+            {% else %}
+                <p>Sorry, no packages yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- Latest Releases -->
+        <div class="span6">
+            <h2>Latest Releases</h2>
+            {% if release %}
+                <p>{{ release }}</p>
+                <p>{{ release.summary }}</p>
+                <p><a class="btn" href="{{ release.get_absolute_url }}">View details &raquo;</a></p>
+            {% else %}
+                <p>Sorry, no releases yet.</p>
+            {% endif %}
+        </div>
+
+    </div><!-- row -->
+
+{% endblock %}

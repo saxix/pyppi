@@ -1,0 +1,6 @@
+{% load i18n %}
+<form action='{% url haystack_search %}' method='get'>
+    <!--suppress HtmlFormInputWithoutLabel -->
+    <input type="text" name="q" value="{{ request.GET.q }}">
+    <input type='submit' value='{% trans "Search" %}'/>
+</form>

@@ -1,0 +1,6 @@
+Welcome to WFP Package Repository.
+
+Please click here to activate your account:
+http://{{site}}/accounts/activate/{{activation_key}}/
+
+Account has to be activated within {{expiration_days}} days.

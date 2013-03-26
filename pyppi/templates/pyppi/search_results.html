@@ -1,0 +1,41 @@
+{% extends "base.html" %}{% load i18n highlight %}
+
+{% block page_title %}
+    <h1>Search</h1>
+{% endblock %}
+
+{% block bread_crumbs_1 %}
+    <li class="active">Search</li>
+{% endblock %}
+
+{% block content %}
+    <form method="get" action=".">
+        {{ form.as_p }}
+        <input class="btn btn-primary" type="submit" value="Search">
+
+        {% if query %}
+            <h2>{% blocktrans %}Index of Packages Matching '{{ query }}'{% endblocktrans %}</h2>
+            <ul>
+                {% for result in page.object_list %}
+                    <li>
+                        <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a>
+                        {% if result.object.latest %}
+                            <p>{% highlight result.object.latest.summary with query %}</p>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li>{% trans "There were no matches." %}</li>
+                {% endfor %}
+            </ul>
+            {% if page.has_previous or page.has_next %}
+                <div>
+                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo;
+                    Previous{% if page.has_previous %}</a>{% endif %}
+                    |
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;
+                    {% if page.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </form>
+{% endblock content %}

@@ -1,0 +1,12 @@
+{% extends "box.html" %}{% load url from future %}{% load i18n static %}
+{% block title %}{{ block.super }}{% trans '500 Applcation Error' %}{% endblock title %}
+{% block box %}
+    <img src="{% static 'img/alert.png'%}" alt="" >
+    <h1>{% trans "Oh no! Something wrong happens." %}</h1>
+    <p>{% blocktrans %}The server encountered an internal error or
+        misconfiguration and was unable to complete your request.
+        Please contact the server administrator, {{ email }} and inform
+        them of the time the error occurred, and anything you might have done
+        that may have caused the error.
+        More information about this error may be available in the server error log.{% endblocktrans %}</p>
+{% endblock box %}

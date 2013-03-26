@@ -1,0 +1,42 @@
+#header{
+    background-color:#ffffff;
+    color: black;
+}
+
+#header a:link, #header a:visited {
+    /*color: #6ac4ff;*/
+    color: #0082c7;
+}
+
+
+div.breadcrumbs {
+    font-size: 14px;
+}
+
+body {
+    /*color: #0082c7;*/
+    font-family: "Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    font-size: 14px;
+}
+
+#branding{
+    /*color: #0082c7;*/
+    font-size: 24px;
+}
+
+#content-main {
+}
+
+h1 {
+    font-size: 18px;
+    margin: 0 0 0.2em;
+}
+
+.releases td{
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.release-detail *{
+    font-size: 14px;
+}

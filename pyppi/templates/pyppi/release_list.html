@@ -1,0 +1,41 @@
+{% extends "base.html" %}{% load breadcrumbs %}
+
+{% block page_title %}
+    <h1>Release List</h1>
+{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'releases' 'pyppi-release-list' %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+    {% if release_list %}
+        <table class="releases table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Updated</th>
+                <th>Package</th>
+                <th>Summary</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for release in release_list %}
+                <tr>
+                    <td>{{ release.created|date:"Y-m-d" }}</td>
+                    <td>
+                        {% if user.is_authenticated %}
+                            <a href="{{ release.get_absolute_url }}">{{ release }}</a>
+                        {% else %}
+                            {{ release }}
+                        {% endif %}
+                    </td>
+                    <td>{{ release.summary|truncatewords:10 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There are no releases in the index.</p>
+    {% endif %}
+{% endblock %}

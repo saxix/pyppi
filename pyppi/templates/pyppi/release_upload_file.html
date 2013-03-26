@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block bread_crumbs_1 %}
+&raquo; <a href="{{ release.package.get_absolute_url }}">{{ release.package }}</a>
+&raquo; <a href="{{ release.get_absolute_url }}">{{ release }}</a>
+&raquo; Upload a File{% endblock %}
+
+{% block content %}
+<h1>Upload a File for {{ release }}</h1>
+{% if form %}
+<h2>Upload a File</h2>
+<form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+	{{ form.as_p }}
+	<div><input type="submit" value="Upload" /></div>
+</form>
+{% endif %}
+{% endblock %}
+
