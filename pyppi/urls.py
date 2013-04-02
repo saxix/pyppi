@@ -38,7 +38,7 @@ urlpatterns = patterns(
         name='pyppi-package'),
 
     url(r'^packages/(?P<package>[\w\d_\.\-]+)/edit/$',
-        PackageUpdate.as_view(),
+        login_required(PackageUpdate.as_view()),
         name='pyppi-package-edit'),
 
     url(r'^simple/$',
