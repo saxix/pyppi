@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends "pyppi/package_list.html" %}{% load breadcrumbs %}{% load url from future %}
 
-{% block bread_crumbs_1 %}
-    &raquo; <a href="{% url pyppi-package package=package.name %}">{{ package }}</a>
-    &raquo; Manage
-{% endblock %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb package 'pyppi-package' package.pk %}
+{% endblock breadcrumbs %}
 
 {% block content %}
     <h1>Manage {{ package.name }}</h1>

@@ -1,9 +1,11 @@
+from logging import getLogger
 from django.http import HttpResponse, QueryDict, HttpResponseBadRequest
 from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.utils.datastructures import MultiValueDict
 from django.contrib.auth import authenticate
 from pyppi.models import PythonVersion
 
+log = getLogger(__name__)
 
 class HttpResponseNotImplemented(HttpResponse):
     status_code = 501
@@ -83,6 +85,7 @@ def parse_header(header):
 def login_basic_auth(request):
     authentication = request.META.get("HTTP_AUTHORIZATION")
     if not authentication:
+        log.debug('HTTP_AUTHORIZATION not found in header')
         return
     (authmeth, auth) = authentication.split(' ', 1)
     if authmeth.lower() != "basic":

@@ -55,11 +55,11 @@ class DistUtilsTestCase(BaseTestMixin, WebTest):
                 resp = self.app.post(url, data, expect_errors=True)
                 self.assertEqual(resp.status_code, 403)
 
-            with user_add_permission(self.user, ['pyppi.register_package']):
-                resp = self.app.post(url, data)
-                self.assertEqual(resp.content, 'release registered')
-                assert Package.objects.filter(name='pyppi').exists()
-                assert Release.objects.filter(package__name='pyppi', version='1.0').exists()
+                with user_add_permission(self.user, ['pyppi.register_package']):
+                    resp = self.app.post(url, data)
+                    self.assertEqual(resp.content, 'release registered')
+                    assert Package.objects.filter(name='pyppi').exists()
+                    assert Release.objects.filter(package__name='pyppi', version='1.0').exists()
 
     def test_upload(self):
         """
@@ -82,18 +82,18 @@ class DistUtilsTestCase(BaseTestMixin, WebTest):
                 resp = self.app.post(url, data, upload_files=files, expect_errors=True)
                 self.assertEqual(resp.status_code, 403)
 
-            with user_add_permission(self.user, ['pyppi.upload_package']):
-                resp = self.app.post(url, data, upload_files=files)
-                self.assertEqual(resp.content, 'upload accepted')
-                assert Package.objects.filter(name='pyppi').exists()
-                assert Release.objects.filter(package__name='pyppi', version='1.0').exists()
-                assert Distribution.objects.filter(release__package__name='pyppi',
-                                                   release__version='1.0').exists()
-                distro = Distribution.objects.get(release__package__name='pyppi',
-                                                  release__version='1.0')
+                with user_add_permission(self.user, ['pyppi.upload_package']):
+                    resp = self.app.post(url, data, upload_files=files)
+                    self.assertEqual(resp.content, 'upload accepted')
+                    assert Package.objects.filter(name='pyppi').exists()
+                    assert Release.objects.filter(package__name='pyppi', version='1.0').exists()
+                    assert Distribution.objects.filter(release__package__name='pyppi',
+                                                       release__version='1.0').exists()
+                    distro = Distribution.objects.get(release__package__name='pyppi',
+                                                      release__version='1.0')
 
-                full_path = os.path.join(settings.MEDIA_ROOT, distro.content.name)
-                assert os.path.isfile(full_path)
+                    full_path = os.path.join(settings.MEDIA_ROOT, distro.content.name)
+                    assert os.path.isfile(full_path)
 
     def test_upload_overwrite(self):
         """

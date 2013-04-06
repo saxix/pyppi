@@ -1,5 +1,6 @@
 import os
 from django.contrib.auth.models import Group
+from django.core.urlresolvers import reverse
 from django_dynamic_fixture import G
 from pyppi.models import Distribution, Package, Classifier
 from pyppi.tests.fixtures import distro_factory, package_factory, release_factory, user_factory
@@ -55,3 +56,11 @@ class BaseTestMixin(object):
 
     def reset_env(self):
         pass
+
+    def login(self):
+        res = self.app.get(reverse('login'))
+        form = res.forms[1]
+        form['username'] = self.username
+        form['password'] = self.password
+        response = form.submit().follow()
+        self.assertEqual(response.context['user'].username, self.username)
