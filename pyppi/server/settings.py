@@ -137,23 +137,28 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'handlers': ['root'],
+            'handlers': ['null'],
             'propagate': False,
             'level': 'ERROR'
         },
         'django': {
-            'handlers': ['root'],
-            'propagate': True,
-            'level': 'DEBUG',
+            'handlers': ['null'],
+            'propagate': False,
+            'level': 'ERROR',
         },
         'django.request': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
+            'handlers': ['null'],
+            'level': 'ERROR',
+            'propagate': False,
         },
         'pyppi': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['null'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'south': {
+            'handlers': ['null'],
+            'level': 'ERROR',
             'propagate': False,
         },
     }
