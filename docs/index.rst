@@ -7,7 +7,6 @@
    :maxdepth: 2
 
    install
-   migrate
    upload
    pip
    settings

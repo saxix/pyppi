@@ -3,10 +3,10 @@
 Developers: How to upload packages
 ==================================
 
-Uploading to your PyPI
+Uploading to your PyPPI
 ----------------------
 
-Assuming you are running your Django site locally for now, add the following to
+Assuming you are running your PyPPI site locally for now, add the following to
 your ``~/.pypirc`` file::
 
     [distutils]
