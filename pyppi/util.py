@@ -5,20 +5,30 @@ import re
 # import shutil
 import tempfile
 import logging
+from django.conf import settings
+from django.contrib.auth.models import User
 from pyppi.models import PlatformName, DistributionType, Package
 
 logger = logging.getLogger(__name__)
 
+def get_user(request):
+    user = request.user
+    if not user.is_authenticated():
+        user = User.objects.get(pk=settings.ANONYMOUS_USER_ID)
+    return user
 
 def user_can_download(request, distro):
-    user = request.user
+    user = get_user(request)
+
     if distro.release.package.access == Package.VISIBLE_ALL:
         logger.debug('Public package `{distro.release.package}`'.format(**locals()))
         return True
+
     if user.is_authenticated() and distro.release.package.access == Package.VISIBLE_AUTH:
         logger.debug('Protected package `{distro.release.package}`'.format(**locals()))
         has_perm = True
     else:
+
         has_perm = user.has_perm('pyppi.download_package') or user.has_perm('pyppi.download_package',
                                                                             distro.release.package)
 

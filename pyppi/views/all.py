@@ -53,12 +53,21 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         try:
-            package = Package.objects.latest('releases__created')
+            if not self.request.user.is_authenticated():
+                qs = Package.objects.public()
+            else:
+                qs = Package.objects.all()
+            package = qs.latest('releases__created')
         except Package.DoesNotExist:
             package = None
 
         try:
-            release = Release.objects.latest('created')
+            if not self.request.user.is_authenticated():
+                qs = Release.objects.public()
+            else:
+                qs = Release.objects.all()
+            release = qs.latest('created')
+            # release = Release.objects.public().latest('created')
         except Release.DoesNotExist:
             release = None
 

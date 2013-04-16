@@ -77,6 +77,7 @@ class LoginRequiredMixin(object):
 class SecuredViewMixin(object):
     permissions = None
 
+
     def check_perms(self, request, obj=None, raise_exception=False):
         assert isinstance(self.permissions, list), 'missing `permissions` attribute in %s' % self.__class__
         user = request.user

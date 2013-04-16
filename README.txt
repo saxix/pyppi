@@ -19,6 +19,12 @@ The reason of this project is that in big environment we need features not provi
 * improved rest interface
 
 
-**If you need to migrate from DjangoPyPi, the best method is to run the ` command**
+Project Info
+============
+
+* Project Page: https://github.com/saxix/pyppi
+* Bug Tracking: https://github.com/saxix/pyppi/issues
+* Docs: https://pyppi.readthedocs.org/en/latest/
+
 
 

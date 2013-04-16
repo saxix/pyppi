@@ -10,6 +10,7 @@ class WebTestCase(BaseTestMixin, WebTest):
     def test_home(self):
         url = reverse('pyppi-home')
         with user_add_permission(self.user, ['pyppi']):
+            self.login()
             res = self.app.get(url, user=self.user)
             res = res.click('Packages')
             self.assertContains(res, _('Package List'))
@@ -20,9 +21,10 @@ class WebTestCase(BaseTestMixin, WebTest):
     def test_download(self):
         url = reverse('pyppi-home')
         with user_add_permission(self.user, ['pyppi.download_package']):
-            res = self.app.get(url, user=self.user)
+            self.login()
+            res = self.app.get(url, user=self.username)
+            res = res.goto(res.request.url)
             res = res.click('Releases')
-
             res = res.click('package1-1')
             res = res.click('package1-1.0.tar.gz')
 
@@ -33,21 +35,40 @@ class WebTestCase(BaseTestMixin, WebTest):
         """
         test authorization for uploaders/downloaders
         """
-        url = reverse('pyppi-package-edit', args=[self.package.name])
-        form = self.app.get(url, user=self.user).forms[1]
+        self.login()
+        url = reverse('pyppi-package-list')
+
+        res = self.app.get(url, user=self.user)
+        res = res.click(self.package.name)
+        res = res.click('manage')
+        form = res.forms[1]
         form['downloaders'] = ['2']
         form['uploaders'] = ['2']
         form['auto_hide'] = 0
         form['classifiers'] = [form['classifiers'].options[0][0]]
         res = form.submit()
         res = res.follow()
+
         package = res.context['object']
         self.assertFalse(package.auto_hide)
         self.assertSequenceEqual(package.downloaders.values_list('pk', flat=True), [2])
         self.assertSequenceEqual(package.uploaders.values_list('pk', flat=True), [2])
-        form = self.app.get(url, user=self.user).forms[1]
+
+        form = res.forms[1]
         form['downloaders'] = ['1']
         form['uploaders'] = ['1']
         res = form.submit()
         self.assertSequenceEqual(package.downloaders.values_list('pk', flat=True), [1])
         self.assertSequenceEqual(package.uploaders.values_list('pk', flat=True), [1])
+
+    def test_manage_link(self):
+        """
+         `manage` link should not visible only to package owners
+        """
+        self.login()
+        url = reverse('pyppi-package-list')
+
+        res = self.app.get(url, user=self.user)
+        res = res.click(self.user2_package.name)
+        self.assertRaises(IndexError, res.click, 'manage')
+

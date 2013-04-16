@@ -162,7 +162,7 @@ class Metadata11Form(Metadata10Form):
                                            'be used to assist searching for the '
                                            'package in a larger catalog'))
 
-    download_url = forms.URLField(required=False, verify_exists=True,
+    download_url = forms.URLField(required=False,
                                   help_text=_(u'A string containing the URL for '
                                               'the package\'s home page.'))
 
@@ -207,7 +207,6 @@ class Metadata12Form(Metadata10Form):
                                            'package in a larger catalog'))
 
     download_url = forms.URLField(required=False,
-                                  verify_exists=True,
                                   help_text=_(u'A string containing the URL for '
                                               'the package\'s home page.'))
 

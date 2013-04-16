@@ -37,6 +37,7 @@ def user_add_permission(user, permission_names, obj=None, limit_from=None):
     >>> u.has_perm('test', o)
     False
     """
+    assert isinstance(permission_names, (list, tuple)), '`permission_names` must be a list of strings'
     try:
         created = []
         permissions = perms(*permission_names)
