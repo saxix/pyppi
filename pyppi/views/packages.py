@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, ListView, UpdateView, DetailView
 import pyppi
 from pyppi.forms import PackageForm
 from pyppi.models import Package
+from pyppi.util import get_user
 from pyppi.views.base import BasicAuthMixin, SecuredViewMixin
 
 __all__ = ['PackageList', 'PackageDetail', 'PackageListSimple', 'PackageDetailSimple',
@@ -51,12 +52,22 @@ class PackageDetail(SecuredViewMixin, DetailView):
     model = Package
     pk_url_kwarg = 'package'
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+            return super(PackageDetail, self).get_queryset()
+        return Package.objects.public()
+
+    def get_context_data(self, **kwargs):
+        user = get_user(self.request)
+        kwargs['manage_allowed'] = user.packages_owned.filter(pk=self.object.pk).exists()
+        return super(PackageDetail, self).get_context_data(**kwargs)
+
 
 class PackageDoapView(PackageDetail):
     template_name = 'pyppi/package_doap.xml'
 
 
-class PackageUpdate(UpdateView):
+class PackageUpdate(SecuredViewMixin, UpdateView):
     template_name = 'pyppi/package_manage.html'
     model = Package
     pk_url_kwarg = 'package'
