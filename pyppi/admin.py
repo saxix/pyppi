@@ -3,9 +3,10 @@ from django.contrib.admin import ModelAdmin, TabularInline
 from django.contrib.admin.sites import NotRegistered
 from django.contrib.auth.admin import UserAdmin
 from django.core.urlresolvers import reverse
+from guardian.models import GroupObjectPermission, UserObjectPermission
 from pyppi.models import Review, Package, Release, Distribution, Classifier, Maintainer, Owner, \
     PlatformName, PythonVersion, Architecture, DistributionType, MirrorSite, MirrorLog, IPRestriction, KnownHost
-
+from guardian.admin  import GuardedModelAdmin
 
 class ClassifierAdmin(ModelAdmin):
     search_fields = ('name',)
@@ -37,7 +38,7 @@ class DistributionInline(TabularInline):
     extra = 0
 
 
-class PackageAdmin(ModelAdmin):
+class PackageAdmin(GuardedModelAdmin, ModelAdmin):
     list_display = ('name', 'latest', 'auto_hide', 'allow_comments', '_owners')
     list_filter = ('auto_hide', 'allow_comments', )
     search_fields = ('name',)
@@ -131,6 +132,16 @@ def register(model, modeladmin=None):
     admin.site.register(model, modeladmin)
 
 
+class UserObjectPermissionAdmin(ModelAdmin):
+    search_fields = ['user__username', 'object_pk']
+    list_display = ['user', 'permission', 'content_object']
+
+
+class GroupObjectPermissionAdmin(ModelAdmin):
+    search_fields = ['group__name', 'object_pk']
+    list_display = ['group', 'permission', 'content_object']
+
+
 def override():
     register(Classifier, ClassifierAdmin)
     register(Distribution, DistributionAdmin)
@@ -147,3 +158,8 @@ def override():
     register(MirrorLog)
     register(IPRestriction, IPRestrictionAdmin)
     register(KnownHost, KnownHostAdmin)
+    register(KnownHost, KnownHostAdmin)
+
+    register(GroupObjectPermission, GroupObjectPermissionAdmin)
+    register(UserObjectPermission, UserObjectPermissionAdmin)
+

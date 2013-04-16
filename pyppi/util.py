@@ -7,6 +7,7 @@ import tempfile
 import logging
 from django.conf import settings
 from django.contrib.auth.models import User
+from guardian.utils import get_anonymous_user
 from pyppi.models import PlatformName, DistributionType, Package
 
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 def get_user(request):
     user = request.user
     if not user.is_authenticated():
-        user = User.objects.get(pk=settings.ANONYMOUS_USER_ID)
+        user = get_anonymous_user()
     return user
 
 def user_can_download(request, distro):

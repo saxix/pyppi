@@ -1,7 +1,7 @@
 import subprocess
 import datetime
 import os
-VERSION = (0, 0, 2, 'final', 0)
+VERSION = (0, 0, 3, 'alpha', 0)
 NAME = "pyppi"
 COPYRIGHT = "2013, Stefano Apostolico"
 
