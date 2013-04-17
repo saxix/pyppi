@@ -1,10 +1,13 @@
-<html>{% load url from future %}
+<html>{% load url from future %}{% load files %}
 <head>
 <title>Simple Package Index</title>
 </head>
 <body>
 {% for package in package_list %}
-<a href="{% url 'pyppi-package-simple' package=package.name %}">{{ package.name }}</a><br/>
+    {% can_download_package package as perm %}
+    {% if perm %}
+        <a href="{% url 'pyppi-package-simple' package=package.name %}">{{ package.name }}</a><br/>
+    {% endif %}
 {% endfor %}
 </body>
 </html>

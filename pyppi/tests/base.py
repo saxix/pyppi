@@ -51,7 +51,6 @@ class BaseTestMixin(object):
         self.distro = distro_factory(r)
         distro_factory(r2)
         distro_factory(r3)
-        distro_factory(r3)
         distro_factory(r4)
 
     def tearDown(self):

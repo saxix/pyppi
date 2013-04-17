@@ -97,6 +97,10 @@ class PackageListSimple(BasicAuthMixin, ListView):
     template_name = 'pyppi/package_list_simple.html'
     model = Package
 
+    # def get_queryset(self):
+    #     qs = Package.objects.public() | self.request.user.packages_owned.all()
+    #     return qs
+
 
 class PackageDetailSimple(BasicAuthMixin, DetailView):
     template_name = 'pyppi/package_detail_simple.html'

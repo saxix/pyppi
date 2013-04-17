@@ -10,6 +10,7 @@ from django.http import HttpResponseForbidden, Http404, HttpResponseRedirect
 from django.utils.decorators import available_attrs, method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+from guardian.utils import get_anonymous_user
 from pyppi.http import login_basic_auth, HttpResponseUnauthorized
 from pyppi.models import KnownHost, MirrorSite
 from pyppi.util import get_client_ip
@@ -36,11 +37,17 @@ def basicauth_required(function=None):
                 if len(auth) == 2:
                     if auth[0].lower() == "basic":
                         uname, passwd = base64.b64decode(auth[1]).split(':')
-                        user = authenticate(username=uname, password=passwd)
+                        if uname.lower() == 'anonymous':
+                            user = get_anonymous_user()
+                        else:
+                            user = authenticate(username=uname, password=passwd)
                         if user is not None and user.is_active:
-                            login(request, user)
-                            request.user = user
-                            return view_func(request, *args, **kwargs)
+                            pass
+                        else:
+                            user = get_anonymous_user()
+                        login(request, user)
+                        request.user = user
+                        return view_func(request, *args, **kwargs)
 
             return HttpResponseUnauthorized('')
 

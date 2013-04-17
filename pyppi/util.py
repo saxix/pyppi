@@ -5,6 +5,7 @@ import re
 # import shutil
 import tempfile
 import logging
+import warnings
 from django.conf import settings
 from django.contrib.auth.models import User
 from guardian.utils import get_anonymous_user
@@ -12,26 +13,36 @@ from pyppi.models import PlatformName, DistributionType, Package
 
 logger = logging.getLogger(__name__)
 
+def deprecated(func):
+    '''This is a decorator which can be used to mark functions
+    as deprecated. It will result in a warning being emitted
+    when the function is used.'''
+    def new_func(*args, **kwargs):
+        warnings.warn("Call to deprecated function {}.".format(func.__name__),
+                      category=DeprecationWarning)
+        return func(*args, **kwargs)
+    new_func.__name__ = func.__name__
+    new_func.__doc__ = func.__doc__
+    new_func.__dict__.update(func.__dict__)
+    return new_func
+
 def get_user(request):
     user = request.user
     if not user.is_authenticated():
         user = get_anonymous_user()
     return user
 
-def user_can_download(request, distro):
+def user_can_download_package(request, package):
     user = get_user(request)
-
-    if distro.release.package.access == Package.VISIBLE_ALL:
-        logger.debug('Public package `{distro.release.package}`'.format(**locals()))
+    if package.access == Package.VISIBLE_ALL:
+        logger.debug('Public package `{package}`'.format(**locals()))
         return True
 
-    if user.is_authenticated() and distro.release.package.access == Package.VISIBLE_AUTH:
-        logger.debug('Protected package `{distro.release.package}`'.format(**locals()))
+    if user.is_authenticated() and package.access == Package.VISIBLE_AUTH:
+        logger.debug('Protected package `{package}`'.format(**locals()))
         has_perm = True
     else:
-
-        has_perm = user.has_perm('pyppi.download_package') or user.has_perm('pyppi.download_package',
-                                                                            distro.release.package)
+        has_perm = user.has_perm('pyppi.download_package') or user.has_perm('pyppi.download_package', package)
 
     from_ip = get_client_ip(request)
     if user.iprestrictions.filter(only_allowed_from=from_ip).exists():
@@ -39,7 +50,10 @@ def user_can_download(request, distro):
 
     return has_perm
 
-    # return has_perm
+@deprecated
+def user_can_download(request, distro):
+    package = distro.release.package
+    return user_can_download_package(request, package)
 
 
 def get_client_ip(request):

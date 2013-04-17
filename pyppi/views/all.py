@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import FormView
 from pyppi.http import login_basic_auth
 from pyppi.models import Package, Release, Distribution
-from pyppi.util import user_can_download
+from pyppi.util import user_can_download, user_can_download_package
 from pyppi.views.base import basicauth_required
 
 __all__ = ['IndexView', 'LoginView', 'static_serve', 'distro_serve', 'basicauth_required']
@@ -33,7 +33,7 @@ def distro_serve(request, path, document_root=None, show_indexes=False):
     logger.debug(
         "User `{0.user}` dowdloads distro `{1}` of package {2}".format(request, filename, distro.release.package))
 
-    if user_can_download(request, distro):
+    if user_can_download_package(request, distro.release.package):
         logger.debug("User `{0.user}` download distro `{1}` of package {2}".format(request, filename,
                                                                                    distro.release.package))
         return static.serve(request, path, document_root)
